@@ -1,6 +1,5 @@
 import pymongo
-import argparse
-import bz2
+from tqdm import tqdm
 
 
 def upload_mapping(wikidata_item, collection):
@@ -24,8 +23,12 @@ if __name__ == "__main__":
 
     title_to_id_mapping_coll.drop()
 
+    doc_count = wikidata_items_coll.count_documents({})
+    progress_bar = tqdm(total=doc_count, unit="items", leave=None, mininterval=0, miniters=0)
+
     for item in wikidata_items_coll.find({}):
         upload_mapping(item, title_to_id_mapping_coll)
+        progress_bar.update(1)
 
     title_to_id_mapping_coll.create_index("title")
     title_to_id_mapping_coll.create_index("wikidata_id")
