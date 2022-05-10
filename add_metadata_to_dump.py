@@ -3,6 +3,7 @@ import argparse
 import bz2
 import json
 import random
+from tqdm import tqdm
 
 
 parser = argparse.ArgumentParser()
@@ -23,11 +24,11 @@ if __name__ == "__main__":
     wikidata_items_coll = wikidata_db.wikidata_items
 
     neckar_db = client.neckar_results
-    neckar_results_coll = neckar_db.entities
+    neckar_results_coll = neckar_db.neckar_results
 
     wikipedia_dump = args.wikipedia_dump
 
-    print("Counting articles...")
+    print("Counting number of Wikipedia dump articles...")
 
     articles_counter = 0
     with bz2.open(wikipedia_dump, "r") as dump_file:
@@ -35,23 +36,29 @@ if __name__ == "__main__":
             articles_counter += 1
 
     print("Processing...")
-    progress_bar = tqdm(total=doc_count, unit="items", leave=None, mininterval=0, miniters=0)
+    progress_bar = tqdm(total=articles_counter, unit="items", leave=None, mininterval=0, miniters=0)
 
-    with bz2.open(args.output, "w") as output_file:
+    with bz2.open(args.output_file, "wt") as output_file:
         with bz2.open(wikipedia_dump, "r") as dump_file:
             for article in dump_file:
                 article_info = json.loads(article.decode("utf-8"))
 
-                wikidata_id = title_to_id_coll.find_one({title: article_info["title"]})
-                if wikidata_id is None:
+                print(article_info["title"])
+                try:
+                    wikidata_id = title_to_id_coll.find_one({"title": article_info["title"]})["wikidata_id"]
+                except TypeError:
                     continue
+
                 try:
                     aliases = [alias["value"] for alias in wikidata_items_coll.find_one(
                         {"id": wikidata_id})["aliases"]["en"]]
                 except KeyError:
                     aliases = []
-                ner_class = random.choice([result["neClass"] for result in neckar_results_coll.find({"id": wikidata_id})])
-                if not ner_class:
+
+                try:
+                    ner_class = random.choice([result["neClass"] for result in neckar_results_coll.find(
+                        {"id": wikidata_id})])
+                except IndexError:
                     ner_class = "MISC"
 
                 article_info["wikidata_id"] = wikidata_id
