@@ -1,7 +1,5 @@
 import argparse
 import pymongo
-import bz2
-import json
 import multiprocessing
 from tqdm import tqdm
 import re
@@ -18,9 +16,9 @@ args = parser.parse_args()
 
 class Entity:
 
-    def __init__(self, info, sent_index, article, collection_dump):
-        self.article_id = article["id"]
-        self.article_title = article["title"]
+    def __init__(self, info, sent_index, article_info, collection_dump):
+        self.article_id = article_info["id"]
+        self.article_title = article_info["title"]
         self.sent_index = sent_index
 
         self.begin_index = info[0]
@@ -37,26 +35,20 @@ class Entity:
                 "ne_class": self.ne_class, "technique": "anchor"}
 
     def get_class(self, collection_dump):
-        article = collection_dump.find_one({"title": self.mention_title})
-        if article is not None:
-            return article["ne_class"]
+        article_info = collection_dump.find_one({"title": self.mention_title})
+        if article_info is not None:
+            return article_info["ne_class"]
         return None
 
 
 class Article:
 
-    def __init__(self, article):
-        self.article = article
+    def __init__(self, article_info):
+        self.article = article_info
         self.article["id"] = int(self.article["id"])
         self.text = self.process_links()
         self.sentences = self.segment_text()
         self.tokens, self.entities = self.process_text()
-
-    def get_data(self, collection_dump):
-        article = collection_dump.find_one({"article_title": str(self.article["article_title"])})
-        if article is not None:
-            return article["wikidata_id"], article["ne_class"]
-        return None
 
     def process_links(self):
         tmp_string = self.article['text'].replace("&lt;", "<").replace("&gt;", ">").replace(u"\u00ab", "<") \
@@ -156,12 +148,12 @@ def process_article(processing_q, writing_q):
     dump_coll_p = wikipedia_db_p.dump_with_metadata
 
     while True:
-        article = processing_q.get()
+        article_info = processing_q.get()
 
-        if article == "kill":
+        if article_info == "kill":
             break
 
-        article_obj = Article(article)
+        article_obj = Article(article_info)
 
         article_dict = article_obj.get_article_dict()
         token_dicts = article_obj.get_tokens_dict()
@@ -173,11 +165,11 @@ def process_article(processing_q, writing_q):
 def write_processed_article(process_q, writing_q, number_documents, num_processes):
     client_wikipedia = pymongo.MongoClient("localhost", 27017)
     db_wikipedia = client_wikipedia.wikipedia
-    
+
     collection_articles = db_wikipedia[f"dump_articles"]
     collection_tokens = db_wikipedia[f"dump_tokens"]
     collection_mentions = db_wikipedia[f"dump_mentions"]
-    
+
     collection_articles.drop()
     collection_tokens.drop()
     collection_mentions.drop()
@@ -207,7 +199,7 @@ def write_processed_article(process_q, writing_q, number_documents, num_processe
 
     collection_articles.create_index([("article_title", 1)])
     collection_articles.create_index([("article_id", 1)])
-    
+
     collection_tokens.create_index([("article_id", 1), ("sent_index", 1)])
     collection_tokens.create_index([("article_id", 1)])
 
@@ -226,12 +218,12 @@ if __name__ == "__main__":
     print(f"Processing collection with {num_workers} processes.")
 
     client = pymongo.MongoClient("localhost", 27017)
-    
+
     wikipedia_db = client.wikipedia
-    
+
     dump_with_metadata_coll = wikipedia_db.dump_with_metadata
     doc_count = dump_with_metadata_coll.count_documents({})
-    
+
     manager = multiprocessing.Manager()
 
     # Setting a maxsize for the queues is important to control memory consumption
@@ -247,8 +239,7 @@ if __name__ == "__main__":
     writing_process.start()
 
     for article in dump_with_metadata_coll.find({}):
-        json_article = json.loads(article)
-        processing_queue.put(json_article)
+        processing_queue.put(article)
 
     writing_process.join()
     writing_process.close()
