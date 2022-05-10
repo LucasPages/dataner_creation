@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>NECKAr_WikidataAPI module &mdash; NECKAr  documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="NECKAr  documentation" href="index.html" />
+    <link rel="next" title="NECKAr_write_functions module" href="NECKAr_write_functions.html" />
+    <link rel="prev" title="NECKAr_main module" href="NECKAr_main.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="NECKAr_write_functions.html" title="NECKAr_write_functions module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="NECKAr_main.html" title="NECKAr_main module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NECKAr  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-NECKAr_WikidataAPI">
+<span id="neckar-wikidataapi-module"></span><h1>NECKAr_WikidataAPI module<a class="headerlink" href="#module-NECKAr_WikidataAPI" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="NECKAr_WikidataAPI.get_wikidata_item_tree_item_idsSPARQL">
+<code class="descclassname">NECKAr_WikidataAPI.</code><code class="descname">get_wikidata_item_tree_item_idsSPARQL</code><span class="sig-paren">(</span><em>root_items</em>, <em>forward_properties=None</em>, <em>backward_properties=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_WikidataAPI.html#get_wikidata_item_tree_item_idsSPARQL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_WikidataAPI.get_wikidata_item_tree_item_idsSPARQL" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Return ids of WikiData items, which are in the tree spanned by the given root items and claims relating them</dt>
+<dd>to other items.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>root_items</strong> &#8211; iterable[int] One or multiple item entities that are the root elements of the tree</li>
+<li><strong>forward_properties</strong> &#8211; iterable[int] | None property-claims to follow forward; that is, if root item R has
+a claim P:I, and P is in the list, the search will branch recursively to item I as well.</li>
+<li><strong>backward_properties</strong> &#8211; iterable[int] | None property-claims to follow in reverse; that is, if (for a root
+item R) an item I has a claim P:R, and P is in the list, the search will branch recursively to item I as well.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">iterable[int]: List with ids of WikiData items in the tree</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="NECKAr_main.html"
+                        title="previous chapter">NECKAr_main module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="NECKAr_write_functions.html"
+                        title="next chapter">NECKAr_write_functions module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/NECKAr_WikidataAPI.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="NECKAr_write_functions.html" title="NECKAr_write_functions module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="NECKAr_main.html" title="NECKAr_main module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NECKAr  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Johanna Geiß.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

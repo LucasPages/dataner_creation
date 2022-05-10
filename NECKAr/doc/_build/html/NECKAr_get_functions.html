@@ -1,0 +1,530 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>NECKAr_get_functions module &mdash; NECKAr  documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="NECKAr  documentation" href="index.html" />
+    <link rel="next" title="create_LOD_lists module" href="create_LOD_lists.html" />
+    <link rel="prev" title="NECKAr_write_functions module" href="NECKAr_write_functions.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="create_LOD_lists.html" title="create_LOD_lists module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="NECKAr_write_functions.html" title="NECKAr_write_functions module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NECKAr  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-NECKAr_get_functions">
+<span id="neckar-get-functions-module"></span><h1>NECKAr_get_functions module<a class="headerlink" href="#module-NECKAr_get_functions" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="NECKAr_get_functions.get_WDid">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_WDid</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_WDid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_WDid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets Wikidata id of item</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">id &lt;class &#8216;string&#8217;&gt;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_alias_list">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_alias_list</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_alias_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_alias_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets aliases and other language labels of a person</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">aliaslist (list of strings)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_ceo">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_ceo</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_ceo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_ceo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets CEO (P169)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">ceo (list of int)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_coordinate">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_coordinate</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_coordinate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_coordinate" title="Permalink to this definition">¶</a></dt>
+<dd><p>gets coordinate location of entity</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">coordinate [long (int), lat (int)] | None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_country">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_country</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_country"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_country" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets country (P17)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">country (list of int)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_datebirth">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_datebirth</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_datebirth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_datebirth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets date of birth of a person
+This function calls the functions get_datelife with thh property P569</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">date ob birth &lt;class &#8216;string&#8217;&gt; | None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_datedeath">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_datedeath</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_datedeath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_datedeath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets date of death of a person
+This function calls the functions get_datelife with thh property P570</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">date ob death &lt;class &#8216;string&#8217;&gt;| None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_datelife">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_datelife</code><span class="sig-paren">(</span><em>json_object</em>, <em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_datelife"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_datelife" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Gets dates for person</dt>
+<dd>this only returns a date if it is an explicit date of birth or dead, no latest possible date(P1326) or range (befor/after)</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>json_object</strong> &#8211; ntity object &lt;class &#8216;dict&#8217;&gt;</li>
+<li><strong>P</strong> &#8211; Property (defines if date of birth (P569) or date of death (P570) is searched)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">date &lt;class &#8216;string&#8217;&gt; | None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_de_sitelink">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_de_sitelink</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_de_sitelink"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_de_sitelink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets link of an item to the German Wikipedia</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">de_sitelink &lt;class &#8216;string&#8217;&gt; | None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_description">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_description</code><span class="sig-paren">(</span><em>json_obejct</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_description"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets English description of an item</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_obejct</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">description &lt;class &#8216;string&#8217;&gt; | None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_en_sitelink">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_en_sitelink</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_en_sitelink"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_en_sitelink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets link of an item to the English Wikipedia</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">en_sitelink &lt;class &#8216;string&#8217;&gt; | None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_founder">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_founder</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_founder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_founder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets founder (P112)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">founder (list of int)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_gender">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_gender</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_gender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_gender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets gender of person (&#8220;P21&#8221;)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">gender  &lt;class &#8216;string&#8217;&gt;|  &lt;class &#8216;int&#8217;&gt; | None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_geonamesID">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_geonamesID</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_geonamesID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_geonamesID" title="Permalink to this definition">¶</a></dt>
+<dd><p>gets geonames ID of entity</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">geonames ID (string)| None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_hq_location">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_hq_location</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_hq_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_hq_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets HQ Location (P159)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">hq_location (int)  | None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_inception">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_inception</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_inception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_inception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets date of inception (P571)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">date of inception (string)  | None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_instance_of">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_instance_of</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_instance_of"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_instance_of" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the id of the organization type (instance of) (P131)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">instance_of (list of int)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_label">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_label</code><span class="sig-paren">(</span><em>json_object</em>, <em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets en label of item</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</li>
+<li><strong>id</strong> &#8211; Wikidata id  &lt;class &#8216;string&#8217;&gt;</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">norm_name: label &lt;class &#8216;string&#8217;&gt; | None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_location_inside">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_location_inside</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_location_inside"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_location_inside" title="Permalink to this definition">¶</a></dt>
+<dd><p>gets the id of the country (P17) and or continent (P30) the enities is in</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tuple of id of country (in_country) and id of continent (in_continent) (both lists of int)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_occupation">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_occupation</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_occupation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_occupation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets occupation of person (&#8220;P106&#8221;)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">occupation &lt;class &#8216;string&#8217;&gt;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_official_language">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_official_language</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_official_language"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_official_language" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets official language (P37) of object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">official language (int)  | None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_official_website">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_official_website</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_official_website"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_official_website" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets official website (P856)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">official_website (string)  | None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_poi">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_poi</code><span class="sig-paren">(</span><em>json_object</em>, <em>country_subclass</em>, <em>settlement_subclass</em>, <em>city_subclass</em>, <em>sea_subclass</em>, <em>river_subclass</em>, <em>mountain_subclass</em>, <em>mountainr_subclass</em>, <em>state_subclass</em>, <em>hgte_subclass</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_poi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_poi" title="Permalink to this definition">¶</a></dt>
+<dd><p>gets the location type of the entity</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</li>
+<li><strong>country_subclass</strong> &#8211; list of all country (Q6256, Q3624078, Q1763527) subclasses</li>
+<li><strong>settlement_subclass</strong> &#8211; list of all settlement (Q486972) subclasses</li>
+<li><strong>city_subclass</strong> &#8211; list of all city (Q515) subclasses</li>
+<li><strong>sea_subclass</strong> &#8211; list of all sea (Q165) subclasses</li>
+<li><strong>river_subclass</strong> &#8211; list of all river (Q4022) subclasses</li>
+<li><strong>mountain_subclass</strong> &#8211; list of all mountain (Q8502) subclasses</li>
+<li><strong>mountainr_subclass</strong> &#8211; list of all mountain range (Q41437459) subclasses</li>
+<li><strong>state_subclass</strong> &#8211; list of all state (Q7275) subclasses</li>
+<li><strong>hgte_subclass</strong> &#8211; list of all human geographic territorail entity (Q15642541) subclasses</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of types (list of strings)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_get_functions.get_population">
+<code class="descclassname">NECKAr_get_functions.</code><code class="descname">get_population</code><span class="sig-paren">(</span><em>json_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_get_functions.html#get_population"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_get_functions.get_population" title="Permalink to this definition">¶</a></dt>
+<dd><p>gets population of entity</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_object</strong> &#8211; entity object &lt;class &#8216;dict&#8217;&gt;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">population (int) | None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="NECKAr_write_functions.html"
+                        title="previous chapter">NECKAr_write_functions module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="create_LOD_lists.html"
+                        title="next chapter">create_LOD_lists module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/NECKAr_get_functions.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="create_LOD_lists.html" title="create_LOD_lists module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="NECKAr_write_functions.html" title="NECKAr_write_functions module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NECKAr  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Johanna Geiß.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

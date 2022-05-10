@@ -1,0 +1,620 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>NECKAr_get_functions &mdash; NECKAr  documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NECKAr  documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">NECKAr  documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for NECKAr_get_functions</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python3</span>
+<span class="c1"># This Python file uses the following encoding: utf-8</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;jgeiss&#39;</span>
+
+
+<span class="c1">#############################################################################</span>
+<span class="c1"># authors: Johanna Geiß, Heidelberg University, Germany                     #</span>
+<span class="c1"># email: geiss@informatik.uni-heidelberg.de                                 #</span>
+<span class="c1"># Copyright (c) 2017 Database Research Group,                               #</span>
+<span class="c1">#               Institute of Computer Science,                              #</span>
+<span class="c1">#               University of Heidelberg                                    #</span>
+<span class="c1">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);         #</span>
+<span class="c1">#   you may not use this file except in compliance with the License.        #</span>
+<span class="c1">#   You may obtain a copy of the License at                                 #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   http://www.apache.org/licenses/LICENSE-2.0                              #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   Unless required by applicable law or agreed to in writing, software     #</span>
+<span class="c1">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,       #</span>
+<span class="c1">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.#</span>
+<span class="c1">#   See the License for the specific language governing permissions and     #</span>
+<span class="c1">#   limitations under the License.                                          #</span>
+<span class="c1">#############################################################################</span>
+<span class="c1">#      02.03.2017                                     #</span>
+<span class="c1">#      last update 21.03.2017 bei Johanna Geiß        #</span>
+<span class="c1">#######################################################</span>
+<span class="c1">#This code find all the auxillary information which is to be stored with each entity of all listed categories</span>
+
+<span class="c1">######################################################################################################</span>
+<span class="c1"># Common Fields</span>
+<span class="c1">######################################################################################################</span>
+
+<div class="viewcode-block" id="get_WDid"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_WDid">[docs]</a><span class="k">def</span> <span class="nf">get_WDid</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets Wikidata id of item</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: id &lt;class &#39;string&#39;&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">id</span></div>
+
+
+<div class="viewcode-block" id="get_label"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_label">[docs]</a><span class="k">def</span> <span class="nf">get_label</span><span class="p">(</span><span class="n">json_object</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets en label of item</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :param id: Wikidata id  &lt;class &#39;string&#39;&gt;</span>
+<span class="sd">    :return: norm_name: label &lt;class &#39;string&#39;&gt; | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">norm_name</span><span class="o">=</span><span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;labels&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span>  <span class="c1">#labels is a dictionary where the display name for each language is defined</span>
+        <span class="k">if</span> <span class="s2">&quot;en&quot;</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>  <span class="c1">#default: use English label as normalized name</span>
+            <span class="n">norm_name</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">&quot;en&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="s2">&quot;en-gb&quot;</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="n">norm_name</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">&quot;en-gb&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="s2">&quot;en-ca&quot;</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="n">norm_name</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">&quot;en-ca&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="s2">&quot;de&quot;</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>  <span class="c1">#if English label does not exists use German</span>
+            <span class="n">norm_name</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">&quot;de&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">labels</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="c1">#norm_name=id   						#if no English or German label exists use id</span>
+            <span class="n">norm_name</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">norm_name</span> <span class="o">=</span> <span class="nb">id</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">norm_name</span> <span class="o">=</span> <span class="nb">id</span>
+    <span class="k">return</span> <span class="n">norm_name</span></div>
+
+
+<div class="viewcode-block" id="get_description"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_description">[docs]</a><span class="k">def</span> <span class="nf">get_description</span><span class="p">(</span><span class="n">json_obejct</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets English description of an item</span>
+
+<span class="sd">    :param json_obejct: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: description &lt;class &#39;string&#39;&gt; | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;descriptions&quot;</span> <span class="ow">in</span> <span class="n">json_obejct</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;en&quot;</span> <span class="ow">in</span> <span class="n">json_obejct</span><span class="p">[</span><span class="s2">&quot;descriptions&quot;</span><span class="p">]:</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="n">json_obejct</span><span class="p">[</span><span class="s2">&quot;descriptions&quot;</span><span class="p">][</span><span class="s2">&quot;en&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">description</span></div>
+
+
+<div class="viewcode-block" id="get_en_sitelink"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_en_sitelink">[docs]</a><span class="k">def</span> <span class="nf">get_en_sitelink</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets link of an item to the English Wikipedia</span>
+
+<span class="sd">    :param json_object:  entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: en_sitelink &lt;class &#39;string&#39;&gt; | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">en_sitelink</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;sitelinks&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;enwiki&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;sitelinks&quot;</span><span class="p">]:</span>
+            <span class="n">en_sitelink</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;sitelinks&quot;</span><span class="p">][</span><span class="s2">&quot;enwiki&quot;</span><span class="p">][</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">en_sitelink</span></div>
+
+<div class="viewcode-block" id="get_de_sitelink"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_de_sitelink">[docs]</a><span class="k">def</span> <span class="nf">get_de_sitelink</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets link of an item to the German Wikipedia</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: de_sitelink &lt;class &#39;string&#39;&gt; | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">de_sitelink</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;sitelinks&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;dewiki&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;sitelinks&quot;</span><span class="p">]:</span>
+            <span class="n">de_sitelink</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;sitelinks&quot;</span><span class="p">][</span><span class="s2">&quot;dewiki&quot;</span><span class="p">][</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">de_sitelink</span></div>
+<span class="c1">#################################################################################################################</span>
+<span class="c1"># Common fields written</span>
+<span class="c1">#################################################################################################################</span>
+
+<span class="c1">#################################################################################################################</span>
+<span class="c1"># Specific Fields for each neClass</span>
+<span class="c1">#################################################################################################################</span>
+
+<span class="c1">#########################</span>
+<span class="c1">#Person</span>
+<span class="c1">#########################</span>
+
+<div class="viewcode-block" id="get_datebirth"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_datebirth">[docs]</a><span class="k">def</span> <span class="nf">get_datebirth</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets date of birth of a person</span>
+<span class="sd">    This function calls the functions get_datelife with thh property P569</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: date ob birth &lt;class &#39;string&#39;&gt; | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_datelife</span><span class="p">(</span><span class="n">json_object</span><span class="p">,</span> <span class="s2">&quot;P569&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="get_datedeath"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_datedeath">[docs]</a><span class="k">def</span> <span class="nf">get_datedeath</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets date of death of a person</span>
+<span class="sd">    This function calls the functions get_datelife with thh property P570</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: date ob death &lt;class &#39;string&#39;&gt;| None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_datelife</span><span class="p">(</span><span class="n">json_object</span><span class="p">,</span> <span class="s2">&quot;P570&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_datelife"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_datelife">[docs]</a><span class="k">def</span> <span class="nf">get_datelife</span><span class="p">(</span><span class="n">json_object</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets dates for person</span>
+<span class="sd">        this only returns a date if it is an explicit date of birth or dead, no latest possible date(P1326) or range (befor/after)</span>
+
+<span class="sd">    :param json_object: ntity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :param P: Property (defines if date of birth (P569) or date of death (P570) is searched)</span>
+<span class="sd">    :return: date &lt;class &#39;string&#39;&gt; | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">value</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>  <span class="c1">#if &quot;claims&quot; contain the property P569= date of birth</span>
+            <span class="k">for</span> <span class="n">props</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="n">P</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;property&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">P</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                        <span class="n">after</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;after&quot;</span><span class="p">]</span>
+                        <span class="n">before</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;before&quot;</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">after</span> <span class="o">==</span> <span class="n">before</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">value</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
+                            <span class="c1"># prefix = value[0]</span>
+                            <span class="c1"># if prefix == &quot;-&quot;:</span>
+                            <span class="c1">#     prefix = &quot;BC&quot;</span>
+                            <span class="c1"># else:</span>
+                            <span class="c1">#     prefix = &quot;&quot;</span>
+                            <span class="c1">#</span>
+                            <span class="c1"># cleanedvalue = value[1:].lstrip(&quot;0&quot;).split(&quot;T&quot;)[0]</span>
+                            <span class="c1"># cv = cleanedvalue.split(&quot;-&quot;)[0]</span>
+                            <span class="c1"># if cv == &quot;&quot;:</span>
+                            <span class="c1">#     cv = 0</span>
+                            <span class="c1"># #todo create ISOdate</span>
+                            <span class="c1"># year = &quot;%04i&quot; % int(cv)</span>
+                            <span class="c1"># month = cleanedvalue.split(&quot;-&quot;)[1]</span>
+                            <span class="c1"># day = cleanedvalue.split(&quot;-&quot;)[2]</span>
+                            <span class="c1"># value = prefix + year + &quot;-&quot; + month + &quot;-&quot; + day</span>
+    <span class="k">return</span> <span class="n">value</span></div>
+
+<span class="n">gender_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">6581097</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span>
+               <span class="mi">6581072</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span>
+               <span class="mi">1097630</span><span class="p">:</span> <span class="s2">&quot;intersex&quot;</span><span class="p">,</span>
+               <span class="mi">303479</span><span class="p">:</span> <span class="s2">&quot;hermaphrodite&quot;</span><span class="p">,</span>
+               <span class="mi">189125</span><span class="p">:</span> <span class="s2">&quot;transgender&quot;</span><span class="p">,</span>
+               <span class="mi">1052281</span><span class="p">:</span> <span class="s2">&quot;transgender female&quot;</span><span class="p">,</span>
+               <span class="mi">2449503</span><span class="p">:</span> <span class="s2">&quot;transgender male&quot;</span><span class="p">,</span>
+               <span class="mi">48270</span><span class="p">:</span> <span class="s2">&quot;genderqueer&quot;</span><span class="p">,</span>
+               <span class="mi">1399232</span><span class="p">:</span> <span class="s2">&quot;fa-afafine&quot;</span><span class="p">,</span>
+               <span class="mi">3277905</span><span class="p">:</span> <span class="s2">&quot;mahu&quot;</span><span class="p">,</span>
+               <span class="mi">746411</span><span class="p">:</span> <span class="s2">&quot;kathoey&quot;</span><span class="p">,</span>
+               <span class="mi">350374</span><span class="p">:</span> <span class="s2">&quot;fakaleiti&quot;</span><span class="p">,</span>
+               <span class="mi">660882</span><span class="p">:</span> <span class="s2">&quot;hijra&quot;</span><span class="p">}</span>
+<div class="viewcode-block" id="get_gender"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_gender">[docs]</a><span class="k">def</span> <span class="nf">get_gender</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets gender of person (&quot;P21&quot;)</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: gender  &lt;class &#39;string&#39;&gt;|  &lt;class &#39;int&#39;&gt; | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gender_id</span><span class="o">=</span><span class="bp">None</span>
+    <span class="n">gender</span><span class="o">=</span><span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P21&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">props</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P21&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;property&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;P21&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                        <span class="n">gender_id</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span>
+    <span class="n">gender</span><span class="o">=</span><span class="n">gender_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">gender_id</span><span class="p">,</span><span class="n">gender_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gender</span></div>
+
+<div class="viewcode-block" id="get_occupation"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_occupation">[docs]</a><span class="k">def</span> <span class="nf">get_occupation</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets occupation of person (&quot;P106&quot;)</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: occupation &lt;class &#39;string&#39;&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">occupation</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P106&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">props</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P106&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;property&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;P106&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                        <span class="n">occupation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">occupation</span></div>
+
+<div class="viewcode-block" id="get_alias_list"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_alias_list">[docs]</a><span class="k">def</span> <span class="nf">get_alias_list</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets aliases and other language labels of a person</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: aliaslist (list of strings)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">aliaslist</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([])</span>
+    <span class="k">if</span> <span class="s2">&quot;labels&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>  <span class="c1">#get language labels</span>
+            <span class="n">alias</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">lang</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">125</span><span class="p">:</span>
+                <span class="n">alias</span> <span class="o">=</span> <span class="n">alias</span><span class="p">[:</span><span class="mi">125</span><span class="p">]</span>
+            <span class="n">aliaslist</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;aliases&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>
+        <span class="n">aliases</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;aliases&quot;</span><span class="p">]</span>  <span class="c1">#get language aliases</span>
+        <span class="k">for</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">aliases</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">aliasentry</span> <span class="ow">in</span> <span class="n">aliases</span><span class="p">[</span><span class="n">lang</span><span class="p">]:</span>
+                <span class="n">alias</span> <span class="o">=</span> <span class="n">aliasentry</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">124</span><span class="p">:</span>
+                    <span class="n">alias</span> <span class="o">=</span> <span class="n">alias</span><span class="p">[:</span><span class="mi">124</span><span class="p">]</span>
+                <span class="n">aliaslist</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">aliaslist</span><span class="p">)</span></div>
+
+<span class="c1">#################################################################################################</span>
+<span class="c1">#########################</span>
+<span class="c1">#Location</span>
+<span class="c1">#########################</span>
+<div class="viewcode-block" id="get_location_inside"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_location_inside">[docs]</a><span class="k">def</span> <span class="nf">get_location_inside</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;gets the id of the country (P17) and or continent (P30) the enities is in</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: tuple of id of country (in_country) and id of continent (in_continent) (both lists of int)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">in_country</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">in_continent</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P17&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>         <span class="c1">#Claims for country</span>
+            <span class="k">for</span> <span class="n">p17entry</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P17&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">p17entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                    <span class="n">in_country</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p17entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="s2">&quot;P30&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>         <span class="c1">#Claims for continent</span>
+            <span class="k">for</span> <span class="n">p30entry</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P30&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">p30entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                    <span class="n">in_continent</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p30entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">in_country</span><span class="p">,</span> <span class="n">in_continent</span></div>
+
+
+<div class="viewcode-block" id="get_poi"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_poi">[docs]</a><span class="k">def</span> <span class="nf">get_poi</span><span class="p">(</span><span class="n">json_object</span><span class="p">,</span><span class="n">country_subclass</span><span class="p">,</span><span class="n">settlement_subclass</span><span class="p">,</span> <span class="n">city_subclass</span><span class="p">,</span> <span class="n">sea_subclass</span><span class="p">,</span> <span class="n">river_subclass</span><span class="p">,</span> <span class="n">mountain_subclass</span><span class="p">,</span> <span class="n">mountainr_subclass</span><span class="p">,</span> <span class="n">state_subclass</span><span class="p">,</span><span class="n">hgte_subclass</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     gets the location type of the entity</span>
+
+<span class="sd">     :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">     :param country_subclass: list of all country (Q6256, Q3624078, Q1763527) subclasses</span>
+<span class="sd">     :param settlement_subclass: list of all settlement (Q486972) subclasses</span>
+<span class="sd">     :param city_subclass: list of all city (Q515) subclasses</span>
+<span class="sd">     :param sea_subclass: list of all sea (Q165) subclasses</span>
+<span class="sd">     :param river_subclass: list of all river (Q4022) subclasses</span>
+<span class="sd">     :param mountain_subclass: list of all mountain (Q8502) subclasses</span>
+<span class="sd">     :param mountainr_subclass: list of all mountain range (Q41437459) subclasses</span>
+<span class="sd">     :param state_subclass: list of all state (Q7275) subclasses</span>
+<span class="sd">     :param hgte_subclass: list of all human geographic territorail entity (Q15642541) subclasses</span>
+<span class="sd">     :return: list of types (list of strings)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">poi</span><span class="o">=</span><span class="p">[]</span>
+    <span class="c1">#subdirectory=&#39;subclass_all_loc&#39;</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P31&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">p31entry</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P31&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">p31entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">p31entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5107</span><span class="p">:</span> <span class="c1">#continent</span>
+                        <span class="n">poi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Continent&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">p31entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">country_subclass</span><span class="p">:</span>\
+                            <span class="c1">#write_functions.location_type_object(subdirectory,&#39;subclass_country.txt&#39;): #country</span>
+                        <span class="n">poi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Country&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">p31entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">settlement_subclass</span><span class="p">:</span> <span class="c1">#settlement</span>
+                            <span class="c1">#write_functions.location_type_object(subdirectory,&#39;subclass_city.txt&#39;): #city</span>
+                        <span class="n">poi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Settlement&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">p31entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">city_subclass</span><span class="p">:</span>
+                            <span class="c1">#write_functions.location_type_object(subdirectory,&#39;subclass_city.txt&#39;):</span>
+                        <span class="n">poi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;City&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">p31entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">sea_subclass</span><span class="p">:</span> <span class="c1">#Sea</span>
+                        <span class="n">poi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sea&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">p31entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">river_subclass</span><span class="p">:</span>
+                            <span class="c1">#write_functions.location_type_object(subdirectory,&#39;subclass_river.txt&#39;): #river</span>
+                        <span class="n">poi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;River&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">p31entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">mountain_subclass</span><span class="p">:</span>
+                            <span class="c1">#write_functions.location_type_object(subdirectory,&#39;subclass_mountain.txt&#39;): #mountain</span>
+                        <span class="n">poi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Mountain&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">p31entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">mountainr_subclass</span><span class="p">:</span>
+                            <span class="c1">#write_functions.location_type_object(subdirectory,&#39;subclass_mountainrange.txt&#39;): #mountain range</span>
+                        <span class="n">poi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Mountain Range&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">p31entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">state_subclass</span><span class="p">:</span>
+                            <span class="c1">#write_functions.location_type_object(subdirectory,&#39;subclass_state.txt&#39;): #State</span>
+                        <span class="n">poi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;State&quot;</span><span class="p">)</span>
+                    <span class="c1">#if p31entry[&quot;mainsnak&quot;][&quot;datavalue&quot;][&quot;value&quot;][&quot;numeric-id&quot;] in POI_subclass:</span>
+                            <span class="c1">#write_functions.location_type_object(subdirectory,&#39;subclass_location.txt&#39;): #POI</span>
+                        <span class="c1">#poi.append(&quot;POI&quot;)</span>
+                    <span class="k">if</span> <span class="n">p31entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">hgte_subclass</span><span class="p">:</span>
+                            <span class="c1">#write_functions.location_type_object(subdirectory,&#39;subclass_human-geographic-territorial-entity.txt&#39;): #human_geo_territory</span>
+                        <span class="n">poi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;human_geographic_territorial_entity&quot;</span><span class="p">)</span>
+    <span class="n">poi</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">poi</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">poi</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_coordinate"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_coordinate">[docs]</a><span class="k">def</span> <span class="nf">get_coordinate</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;gets coordinate location of entity</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: coordinate [long (int), lat (int)] | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coordinate</span><span class="o">=</span><span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P625&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P625&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                <span class="nb">long</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P625&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span>
+                <span class="n">lat</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P625&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span>
+                <span class="n">coordinate</span><span class="o">=</span><span class="p">[</span><span class="nb">long</span><span class="p">,</span> <span class="n">lat</span><span class="p">]</span>
+                <span class="c1">#coordinate.append(str(json_object[&quot;claims&quot;][&quot;P625&quot;][0][&quot;mainsnak&quot;][&quot;datavalue&quot;]\</span>
+                <span class="c1">#[&quot;value&quot;][&quot;latitude&quot;]) +&quot; &quot;+ str(json_object[&quot;claims&quot;][&quot;P625&quot;][0][&quot;mainsnak&quot;]\</span>
+                <span class="c1">#[&quot;datavalue&quot;][&quot;value&quot;][&quot;longitude&quot;]))</span>
+    <span class="k">return</span> <span class="n">coordinate</span></div>
+
+<div class="viewcode-block" id="get_population"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_population">[docs]</a><span class="k">def</span> <span class="nf">get_population</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;gets population of entity</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: population (int) | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">population</span><span class="o">=</span><span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P1082&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P1082&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                <span class="n">amount</span><span class="o">=</span><span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P1082&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;amount&quot;</span><span class="p">]</span>
+                <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">unit</span><span class="o">=</span><span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P1082&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;unit&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">amount</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">and</span> <span class="n">unit</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()):</span>
+                    <span class="n">population</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">population</span></div>
+
+
+<div class="viewcode-block" id="get_geonamesID"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_geonamesID">[docs]</a><span class="k">def</span> <span class="nf">get_geonamesID</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;gets geonames ID of entity</span>
+
+<span class="sd">    :param json_object:  entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: geonames ID (string)| None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">geonamesID</span><span class="o">=</span><span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P1566&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">props</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P1566&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                    <span class="n">geonamesID</span><span class="o">=</span><span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">geonamesID</span></div>
+
+
+
+<span class="c1">#################################################################################################</span>
+
+<span class="c1">#########################</span>
+<span class="c1">#Organization</span>
+<span class="c1">#########################</span>
+<div class="viewcode-block" id="get_official_language"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_official_language">[docs]</a><span class="k">def</span> <span class="nf">get_official_language</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Gets official language (P37) of object</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: official language (int)  | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">official_language</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P37&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">props</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P37&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                        <span class="n">official_language</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">official_language</span></div>
+
+
+<div class="viewcode-block" id="get_inception"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_inception">[docs]</a><span class="k">def</span> <span class="nf">get_inception</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets date of inception (P571)</span>
+
+<span class="sd">    :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :return: date of inception (string)  | None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">inception</span><span class="o">=</span><span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P571&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="n">inception</span><span class="o">=</span><span class="n">get_datelife</span><span class="p">(</span><span class="n">json_object</span><span class="p">,</span> <span class="s2">&quot;P571&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">inception</span></div>
+
+
+<div class="viewcode-block" id="get_hq_location"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_hq_location">[docs]</a><span class="k">def</span> <span class="nf">get_hq_location</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets HQ Location (P159)</span>
+
+<span class="sd">       :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">       :return: hq_location (int)  | None</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">hq_location</span><span class="o">=</span><span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P159&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">props</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P159&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                    <span class="n">hq_location</span><span class="o">=</span><span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">hq_location</span></div>
+
+
+<div class="viewcode-block" id="get_official_website"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_official_website">[docs]</a><span class="k">def</span> <span class="nf">get_official_website</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets official website (P856)</span>
+
+<span class="sd">           :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">           :return: official_website (string)  | None</span>
+<span class="sd">           &quot;&quot;&quot;</span>
+    <span class="n">official_website</span><span class="o">=</span><span class="bp">None</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P856&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">props</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P856&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                    <span class="n">official_website</span><span class="o">=</span><span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">official_website</span></div>
+
+
+<div class="viewcode-block" id="get_founder"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_founder">[docs]</a><span class="k">def</span> <span class="nf">get_founder</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets founder (P112)</span>
+
+<span class="sd">           :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">           :return: founder (list of int)</span>
+<span class="sd">           &quot;&quot;&quot;</span>
+    <span class="n">founder</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P112&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">props</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P112&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                    <span class="n">founder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">founder</span></div>
+
+
+<div class="viewcode-block" id="get_ceo"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_ceo">[docs]</a><span class="k">def</span> <span class="nf">get_ceo</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets CEO (P169)</span>
+
+<span class="sd">           :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">           :return: ceo (list of int)</span>
+<span class="sd">           &quot;&quot;&quot;</span>
+    <span class="n">ceo</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P169&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">props</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P169&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                    <span class="n">ceo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">ceo</span></div>
+
+
+<div class="viewcode-block" id="get_country"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_country">[docs]</a><span class="k">def</span> <span class="nf">get_country</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets country (P17)</span>
+
+<span class="sd">           :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">           :return: country (list of int)</span>
+<span class="sd">           &quot;&quot;&quot;</span>
+    <span class="n">country</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P17&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>         <span class="c1">#Claims for country</span>
+            <span class="k">for</span> <span class="n">p17entry</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P17&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">p17entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                    <span class="n">country</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p17entry</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">country</span></div>
+
+
+<div class="viewcode-block" id="get_instance_of"><a class="viewcode-back" href="../NECKAr_get_functions.html#NECKAr_get_functions.get_instance_of">[docs]</a><span class="k">def</span> <span class="nf">get_instance_of</span><span class="p">(</span><span class="n">json_object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets the id of the organization type (instance of) (P131)</span>
+
+<span class="sd">           :param json_object: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">           :return: instance_of (list of int)</span>
+<span class="sd">           &quot;&quot;&quot;</span>
+    <span class="n">instance_of</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">if</span> <span class="s2">&quot;claims&quot;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>  <span class="c1"># if claims are available for the item</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;P31&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>         <span class="c1">#Claims for country</span>
+            <span class="k">for</span> <span class="n">props</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">[</span><span class="s2">&quot;P31&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;datavalue&quot;</span> <span class="ow">in</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]:</span>
+                    <span class="n">instance_of</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">][</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;numeric-id&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">instance_of</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">NECKAr  documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Johanna Geiß.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

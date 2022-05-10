@@ -1,0 +1,3 @@
+This folder contains the code of the [NECKAr tool](https://event.ifi.uni-heidelberg.de/?page_id=532#Installing_Configuring_and_Running_NECKAr) downloadable [here](http://event.ifi.uni-heidelberg.de/wp-content/uploads/2017/03/NECKAr_v1.0.tar.gz).
+
+In order for this repository to work, you need to change the Dump.json_file path in the NECKAr.cfg file to the path of the WikiData dump you'll be using.

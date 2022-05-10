@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>NECKAr_main module &mdash; NECKAr  documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="NECKAr  documentation" href="index.html" />
+    <link rel="next" title="NECKAr_WikidataAPI module" href="NECKAr_WikidataAPI.html" />
+    <link rel="prev" title="Documentation for NECKAr - Named Entity Classifier for Wikidata" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="NECKAr_WikidataAPI.html" title="NECKAr_WikidataAPI module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Documentation for NECKAr - Named Entity Classifier for Wikidata"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NECKAr  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-NECKAr_main">
+<span id="neckar-main-module"></span><h1>NECKAr_main module<a class="headerlink" href="#module-NECKAr_main" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="NECKAr_main.find_locations">
+<code class="descclassname">NECKAr_main.</code><code class="descname">find_locations</code><span class="sig-paren">(</span><em>output_collection</em>, <em>input_collection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_main.html#find_locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_main.find_locations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds locations in Wikidata dump and stores them together with additional information in the output collection</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>output_collection</strong> &#8211; </li>
+<li><strong>input_collection</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing, writes objects directly to MongoDB</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_main.find_organizations">
+<code class="descclassname">NECKAr_main.</code><code class="descname">find_organizations</code><span class="sig-paren">(</span><em>output_collection</em>, <em>input_collection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_main.html#find_organizations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_main.find_organizations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds organozations in Wikidata dump and stores them together with additional information in the output collection</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>output_collection</strong> &#8211; </li>
+<li><strong>input_collection</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing, writes objects directly to MongoDB</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_main.find_persons">
+<code class="descclassname">NECKAr_main.</code><code class="descname">find_persons</code><span class="sig-paren">(</span><em>output_collection</em>, <em>input_collection</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_main.html#find_persons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_main.find_persons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds person in Wikidata dump and stores them together with additional information in the output collection</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>output_collection</strong> &#8211; </li>
+<li><strong>input_collection</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing, writes objects directly to MongoDB</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_main.print_info">
+<code class="descclassname">NECKAr_main.</code><code class="descname">print_info</code><span class="sig-paren">(</span><em>info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_main.html#print_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_main.print_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="NECKAr_main.read_config">
+<code class="descclassname">NECKAr_main.</code><code class="descname">read_config</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NECKAr_main.html#read_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NECKAr_main.read_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the configuration file NECKAr.cfg</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config</strong> &#8211; ConfigParser Object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">input and output collection</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Documentation for NECKAr - Named Entity Classifier for Wikidata</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="NECKAr_WikidataAPI.html"
+                        title="next chapter">NECKAr_WikidataAPI module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/NECKAr_main.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="NECKAr_WikidataAPI.html" title="NECKAr_WikidataAPI module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Documentation for NECKAr - Named Entity Classifier for Wikidata"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NECKAr  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Johanna Geiß.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

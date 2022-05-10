@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>create_LOD_lists &mdash; NECKAr  documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NECKAr  documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">NECKAr  documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for create_LOD_lists</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python3</span>
+<span class="c1"># This Python file uses the following encoding: utf-8</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;jgeiss&#39;</span>
+
+
+<span class="c1">#############################################################################</span>
+<span class="c1"># authors: Johanna Geiß, Heidelberg University, Germany                     #</span>
+<span class="c1"># email: geiss@informatik.uni-heidelberg.de                                 #</span>
+<span class="c1"># Copyright (c) 2017 Database Research Group,                               #</span>
+<span class="c1">#               Institute of Computer Science,                              #</span>
+<span class="c1">#               University of Heidelberg                                    #</span>
+<span class="c1">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);         #</span>
+<span class="c1">#   you may not use this file except in compliance with the License.        #</span>
+<span class="c1">#   You may obtain a copy of the License at                                 #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   http://www.apache.org/licenses/LICENSE-2.0                              #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   Unless required by applicable law or agreed to in writing, software     #</span>
+<span class="c1">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,       #</span>
+<span class="c1">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.#</span>
+<span class="c1">#   See the License for the specific language governing permissions and     #</span>
+<span class="c1">#   limitations under the License.                                          #</span>
+<span class="c1">#############################################################################</span>
+<span class="c1"># last updated 21.3.2017 by Johanna Geiß</span>
+
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">errors</span>
+<span class="kn">import</span> <span class="nn">configparser</span>
+
+<div class="viewcode-block" id="read_config"><a class="viewcode-back" href="../create_LOD_lists.html#create_LOD_lists.read_config">[docs]</a><span class="k">def</span> <span class="nf">read_config</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Reads the configuration file NECKAr.cfg</span>
+
+<span class="sd">    :param config: ConfigParser Object</span>
+<span class="sd">    :return: input collection, list of output collections  and the dump collection</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span> <span class="s1">&#39;host&#39;</span><span class="p">)</span>
+    <span class="n">port</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;port&#39;</span><span class="p">)</span>
+
+    <span class="n">auth</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getboolean</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;auth&#39;</span><span class="p">)</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">client</span><span class="o">=</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="n">port</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConnectionFailure</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Connection to the database cannot be made. Plase check the config file&quot;</span><span class="p">)</span>
+
+
+    <span class="n">db_read_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;db_write&#39;</span><span class="p">)</span> <span class="c1"># where info was writtenn to in the first step</span>
+    <span class="n">db_in</span><span class="o">=</span><span class="n">client</span><span class="p">[</span><span class="n">db_read_name</span><span class="p">]</span>               <span class="c1">#Database from where information is extracted</span>
+    <span class="n">db_all_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;db_dump&#39;</span><span class="p">)</span> <span class="c1"># where info was writtenn to in the first step</span>
+    <span class="n">db_all</span><span class="o">=</span><span class="n">client</span><span class="p">[</span><span class="n">db_all_name</span><span class="p">]</span>
+
+    <span class="n">input_collection_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;collection_write&#39;</span><span class="p">)</span>
+    <span class="n">input_collection</span><span class="o">=</span><span class="n">db_in</span><span class="p">[</span><span class="n">input_collection_name</span><span class="p">]</span>
+    <span class="n">all_collection_name</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;collection_dump&#39;</span><span class="p">)</span>
+    <span class="n">all_collection</span><span class="o">=</span><span class="n">db_all</span><span class="p">[</span><span class="n">all_collection_name</span><span class="p">]</span>
+
+    <span class="n">languages</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">(</span> <span class="s2">&quot;LODLinks&quot;</span> <span class="p">)</span>
+    <span class="n">output_coll_list</span><span class="o">=</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">lang</span><span class="p">,</span> <span class="n">coll_name</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">:</span>
+        <span class="n">output_coll_list</span><span class="p">[</span><span class="n">lang</span><span class="p">]</span><span class="o">=</span><span class="n">db_in</span><span class="p">[</span><span class="n">coll_name</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Config File read in&quot;</span><span class="p">)</span>
+
+
+    <span class="k">return</span> <span class="n">input_collection</span><span class="p">,</span> <span class="n">output_coll_list</span><span class="p">,</span> <span class="n">all_collection</span></div>
+
+
+
+<div class="viewcode-block" id="get_linksfromWikidata"><a class="viewcode-back" href="../create_LOD_lists.html#create_LOD_lists.get_linksfromWikidata">[docs]</a><span class="k">def</span> <span class="nf">get_linksfromWikidata</span><span class="p">(</span><span class="n">WD_id</span><span class="p">,</span> <span class="n">entry</span><span class="p">,</span><span class="n">collection</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; get links to other Databases from dumo</span>
+
+<span class="sd">    :param WD_id: Wikidata id of enity &lt;class &#39;string&#39;&gt;</span>
+<span class="sd">    :param entry: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :param collection: collection to search in</span>
+<span class="sd">    :return: entry &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">entry_org</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="n">WD_id</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">entry_org</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;P345&quot;</span> <span class="ow">in</span> <span class="n">entry_org</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]:</span>
+            <span class="n">mainsnak</span><span class="o">=</span><span class="n">entry_org</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P345&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">mainsnak</span><span class="p">[</span><span class="s2">&quot;snaktype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span>
+                <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;IMDB_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mainsnak</span><span class="p">[</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WD_id&quot;</span><span class="p">],</span> <span class="s2">&quot;P345 value missing&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;P434&quot;</span> <span class="ow">in</span> <span class="n">entry_org</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]:</span>
+            <span class="n">mainsnak</span><span class="o">=</span><span class="n">entry_org</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P434&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">mainsnak</span><span class="p">[</span><span class="s2">&quot;snaktype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span>
+                <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;MusicBrainzArtist_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mainsnak</span><span class="p">[</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WD_id&quot;</span><span class="p">],</span> <span class="s2">&quot;P434 value missing&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;P227&quot;</span> <span class="ow">in</span> <span class="n">entry_org</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]:</span>
+            <span class="n">mainsnak</span><span class="o">=</span><span class="n">entry_org</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P227&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">mainsnak</span><span class="p">[</span><span class="s2">&quot;snaktype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span>
+                <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;GND_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mainsnak</span><span class="p">[</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WD_id&quot;</span><span class="p">],</span> <span class="s2">&quot;P227 value missing&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;P1566&quot;</span> <span class="ow">in</span> <span class="n">entry_org</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]:</span>
+            <span class="n">mainsnak</span><span class="o">=</span><span class="n">entry_org</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P1566&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">mainsnak</span><span class="p">[</span><span class="s2">&quot;snaktype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span>
+                <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;geonames_id&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">mainsnak</span><span class="p">[</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WD_id&quot;</span><span class="p">],</span> <span class="s2">&quot;P1566 value missing&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;P402&quot;</span> <span class="ow">in</span> <span class="n">entry_org</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">]:</span>
+            <span class="n">mainsnak</span><span class="o">=</span><span class="n">entry_org</span><span class="p">[</span><span class="s2">&quot;claims&quot;</span><span class="p">][</span><span class="s2">&quot;P402&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;mainsnak&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">mainsnak</span><span class="p">[</span><span class="s2">&quot;snaktype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span>
+                <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;OSM_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mainsnak</span><span class="p">[</span><span class="s2">&quot;datavalue&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WD_id&quot;</span><span class="p">],</span> <span class="s2">&quot;P402 value missing&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">entry</span></div>
+
+<div class="viewcode-block" id="create_LODdictionary"><a class="viewcode-back" href="../create_LOD_lists.html#create_LOD_lists.create_LODdictionary">[docs]</a><span class="k">def</span> <span class="nf">create_LODdictionary</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span><span class="n">myclient</span><span class="p">,</span><span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,):</span>
+    <span class="sd">&quot;&quot;&quot; creates url to Wikidata, Wikipedia an dbpedia (the last depends on langauge) and gets links to LOD</span>
+<span class="sd">    calls function &#39;get_linksfromWikidata&#39;</span>
+
+
+<span class="sd">    :param entry: entity object &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">    :param myclient: connection to db</span>
+<span class="sd">    :param lang: language &lt;class &#39;string&#39;&gt;</span>
+<span class="sd">    :return: nothing but adds information to entry</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WD_id_URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://www.wikidata.org/wiki/&quot;</span><span class="o">+</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WD_id&quot;</span><span class="p">]</span>
+    <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WP_id_URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://&quot;</span><span class="o">+</span><span class="n">lang</span><span class="o">+</span><span class="s2">&quot;.wikipedia.org/wiki/&quot;</span><span class="o">+</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WP_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+    <span class="n">entry</span> <span class="o">=</span> <span class="n">get_linksfromWikidata</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WD_id&quot;</span><span class="p">],</span> <span class="n">entry</span><span class="p">,</span> <span class="n">myclient</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s2">&quot;en&quot;</span><span class="p">:</span>
+        <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;dbpedia_URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://dbpedia.org/resource/&quot;</span><span class="o">+</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WP_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;WP_id_en&quot;</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;dbpedia_URL_en&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://dbpedia.org/resource/&quot;</span><span class="o">+</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WP_id_en&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+        <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;dbpedia_URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://&quot;</span><span class="o">+</span><span class="n">lang</span><span class="o">+</span><span class="s2">&quot;.dbpedia.org/resource/&quot;</span><span class="o">+</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WP_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;NECKAr: Named Entity Classifier for Wikidata</span>
+
+<span class="sd">    this tool categorizes Wikidata items into 6 categories</span>
+<span class="sd">    the parameters are set in NECKAr.cfg &quot;&quot;&quot;</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;../NECKAr.cfg&#39;</span><span class="p">)</span>
+
+    <span class="n">input_collection</span><span class="p">,</span> <span class="n">output_list</span><span class="p">,</span> <span class="n">all_coll</span> <span class="o">=</span> <span class="n">read_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">output_list</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">lang</span><span class="p">,</span> <span class="n">output_coll</span> <span class="ow">in</span> <span class="n">output_list</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1">#print(lang)</span>
+        <span class="c1">#print(output_coll)</span>
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">input_collection</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="n">lang</span><span class="o">+</span><span class="s2">&quot;_sitelink&quot;</span><span class="p">:{</span><span class="s2">&quot;$exists&quot;</span><span class="p">:</span><span class="bp">True</span><span class="p">}})</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">entry</span><span class="o">=</span><span class="p">{}</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entity</span><span class="p">[</span><span class="s2">&quot;norm_name&quot;</span><span class="p">]</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;neClass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entity</span><span class="p">[</span><span class="s2">&quot;neClass&quot;</span><span class="p">]</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WD_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entity</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WP_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entity</span><span class="p">[</span><span class="n">lang</span><span class="o">+</span><span class="s2">&quot;_sitelink&quot;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">lang</span><span class="o">!=</span> <span class="s2">&quot;en&quot;</span> <span class="ow">and</span> <span class="s2">&quot;en_sitelink&quot;</span> <span class="ow">in</span> <span class="n">entity</span><span class="p">:</span>
+                <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;WP_id_en_URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://en.wikipedia.org/wiki/&quot;</span><span class="o">+</span><span class="n">entity</span><span class="p">[</span><span class="s2">&quot;en_sitelink&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+
+            <span class="n">create_LODdictionary</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">all_coll</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
+
+            <span class="n">output_coll</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+
+
+
+
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">NECKAr  documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Johanna Geiß.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

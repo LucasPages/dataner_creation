@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData">
+    <serverData>
+      <paths name="leda">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/wikidata/scripts/NECKAr" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="thabit_HeidelNet">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/HeidelNet/code/NECKAr" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

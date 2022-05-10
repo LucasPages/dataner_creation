@@ -2,7 +2,6 @@ import argparse
 import yaml
 import pymongo
 import entity_utils
-import os
 
 import multiprocessing
 from tqdm import tqdm

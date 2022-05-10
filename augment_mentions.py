@@ -1,9 +1,6 @@
 import argparse
-import re
 
 import pymongo
-import ast
-import json
 from blingfire import text_to_words
 
 import multiprocessing

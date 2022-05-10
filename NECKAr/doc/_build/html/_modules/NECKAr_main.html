@@ -1,0 +1,414 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>NECKAr_main &mdash; NECKAr  documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NECKAr  documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">NECKAr  documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for NECKAr_main</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python3</span>
+<span class="c1"># This Python file uses the following encoding: utf-8</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;jgeiss&#39;</span>
+
+
+<span class="c1">#############################################################################</span>
+<span class="c1"># authors: Johanna Geiß, Heidelberg University, Germany                     #</span>
+<span class="c1"># email: geiss@informatik.uni-heidelberg.de                                 #</span>
+<span class="c1"># Copyright (c) 2017 Database Research Group,                               #</span>
+<span class="c1">#               Institute of Computer Science,                              #</span>
+<span class="c1">#               University of Heidelberg                                    #</span>
+<span class="c1">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);         #</span>
+<span class="c1">#   you may not use this file except in compliance with the License.        #</span>
+<span class="c1">#   You may obtain a copy of the License at                                 #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   http://www.apache.org/licenses/LICENSE-2.0                              #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   Unless required by applicable law or agreed to in writing, software     #</span>
+<span class="c1">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,       #</span>
+<span class="c1">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.#</span>
+<span class="c1">#   See the License for the specific language governing permissions and     #</span>
+<span class="c1">#   limitations under the License.                                          #</span>
+<span class="c1">#############################################################################</span>
+<span class="c1">#      02.03.2017                                                           #</span>
+<span class="c1"># last updated 21.3.2017 by Johanna Geiß                             #</span>
+<span class="c1">#############################################################################</span>
+<span class="c1">#  NECKAr: Named Entity Classifier for Wikidata                             #</span>
+<span class="c1">#    this tool categorizes Wikidata items into 6 categories                 #</span>
+<span class="c1">#    the parameters are set in NECKAr.cfg                                   #</span>
+<span class="c1">#############################################################################</span>
+
+<span class="c1">### Importing modules</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">configparser</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">errors</span>
+<span class="kn">import</span> <span class="nn">NECKAr_get_functions</span> <span class="kn">as</span> <span class="nn">get_functions</span>
+<span class="kn">from</span> <span class="nn">NECKAr_WikidataAPI</span> <span class="kn">import</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span>
+<span class="c1">#from  NECKAr_wikidata_processor import WikiDataProcessor</span>
+<span class="kn">import</span> <span class="nn">NECKAr_write_functions</span> <span class="kn">as</span> <span class="nn">write_functions</span>
+
+<div class="viewcode-block" id="print_info"><a class="viewcode-back" href="../NECKAr_main.html#NECKAr_main.print_info">[docs]</a><span class="k">def</span> <span class="nf">print_info</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;INFO</span><span class="se">\t</span><span class="s2">NECKAr:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">info</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="read_config"><a class="viewcode-back" href="../NECKAr_main.html#NECKAr_main.read_config">[docs]</a><span class="k">def</span> <span class="nf">read_config</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Reads the configuration file NECKAr.cfg</span>
+
+<span class="sd">    :param config: ConfigParser Object</span>
+<span class="sd">    :return: input and output collection</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">host</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span> <span class="s1">&#39;host&#39;</span><span class="p">)</span>
+    <span class="n">port</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;port&#39;</span><span class="p">)</span>
+
+    <span class="n">auth</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getboolean</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;auth&#39;</span><span class="p">)</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">client</span><span class="o">=</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="n">port</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConnectionFailure</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Connection to the database cannot be made. Plase check the config file&quot;</span><span class="p">)</span>
+
+    <span class="n">db_read_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;db_dump&#39;</span><span class="p">)</span>
+    <span class="n">db_write_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;db_write&#39;</span><span class="p">)</span>
+    <span class="n">db_in</span><span class="o">=</span><span class="n">client</span><span class="p">[</span><span class="n">db_read_name</span><span class="p">]</span>               <span class="c1">#Database from where information is extracted</span>
+    <span class="n">db_out</span><span class="o">=</span><span class="n">client</span><span class="p">[</span><span class="n">db_write_name</span><span class="p">]</span>              <span class="c1">#Database in which information is written</span>
+    <span class="k">if</span> <span class="n">auth</span><span class="p">:</span>
+        <span class="n">db_out</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">user</span><span class="p">,</span><span class="n">password</span><span class="p">)</span>
+
+    <span class="n">input_collection_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;collection_dump&#39;</span><span class="p">)</span>
+    <span class="n">input_collection</span><span class="o">=</span><span class="n">db_in</span><span class="p">[</span><span class="n">input_collection_name</span><span class="p">]</span>
+    <span class="n">output_collection_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Database&#39;</span><span class="p">,</span><span class="s1">&#39;collection_write&#39;</span><span class="p">)</span>
+    <span class="n">output_collection</span><span class="o">=</span><span class="n">db_out</span><span class="p">[</span><span class="n">output_collection_name</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Config File read in&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">input_collection</span><span class="p">,</span> <span class="n">output_collection</span></div>
+
+<div class="viewcode-block" id="find_persons"><a class="viewcode-back" href="../NECKAr_main.html#NECKAr_main.find_persons">[docs]</a><span class="k">def</span> <span class="nf">find_persons</span><span class="p">(</span><span class="n">output_collection</span><span class="p">,</span> <span class="n">input_collection</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Finds person in Wikidata dump and stores them together with additional information in the output collection</span>
+
+<span class="sd">    :param output_collection:</span>
+<span class="sd">    :param input_collection:</span>
+<span class="sd">    :return: nothing, writes objects directly to MongoDB</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">per_insert</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">insert_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">bulk</span> <span class="o">=</span> <span class="n">output_collection</span><span class="o">.</span><span class="n">initialize_unordered_bulk_op</span><span class="p">()</span>
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;Find persons...&quot;</span><span class="p">)</span>
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;Remove all persons entries&quot;</span><span class="p">)</span>
+    <span class="n">output_collection</span><span class="o">.</span><span class="n">remove</span><span class="p">({</span><span class="s2">&quot;neClass&quot;</span><span class="p">:</span> <span class="s2">&quot;PER&quot;</span><span class="p">})</span>
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;--- DONE&quot;</span><span class="p">)</span>
+    <span class="n">person_cursor</span><span class="o">=</span><span class="n">input_collection</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;$and&quot;</span><span class="p">:[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;item&quot;</span><span class="p">},{</span><span class="s2">&quot;claims.P31.mainsnak.datavalue.value.numeric-id&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">}]})</span>
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;Begining of person-loop&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">person_cursor</span><span class="p">:</span>
+        <span class="n">entry</span><span class="o">=</span><span class="n">write_functions</span><span class="o">.</span><span class="n">write_common_fields</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;neClass&quot;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;PER&quot;</span>
+
+        <span class="c1">#date of birth</span>
+        <span class="n">dob</span> <span class="o">=</span>  <span class="n">get_functions</span><span class="o">.</span><span class="n">get_datebirth</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dob</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;date_birth&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">dob</span>
+        <span class="c1">#date of death</span>
+        <span class="n">dod</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_datedeath</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dod</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;date_death&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">dod</span>
+        <span class="c1">#gender</span>
+        <span class="n">gender</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_gender</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">gender</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">gender</span>
+        <span class="c1">#occupation</span>
+        <span class="n">occupation</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_occupation</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">occupation</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;occupation&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">occupation</span>
+        <span class="c1">#aliases, alternative names</span>
+        <span class="n">alias</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_alias_list</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;alias&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">alias</span>
+
+        <span class="n">wdid</span><span class="o">=</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+        <span class="n">doc</span><span class="o">=</span><span class="n">output_collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">wdid</span><span class="p">})</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">doc</span> <span class="ow">or</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;neClass&quot;</span><span class="p">]</span><span class="o">!=</span><span class="s2">&quot;PER&quot;</span><span class="p">):</span>
+            <span class="n">insert_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">bulk</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">insert_count</span> <span class="o">==</span> <span class="mi">1000</span><span class="p">:</span>
+            <span class="n">per_insert</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;PER &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">per_insert</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;persons written&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">bulk</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+            <span class="n">bulk</span><span class="o">=</span> <span class="n">output_collection</span><span class="o">.</span><span class="n">initialize_unordered_bulk_op</span><span class="p">()</span>
+            <span class="n">insert_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">insert_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">bulk</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="find_locations"><a class="viewcode-back" href="../NECKAr_main.html#NECKAr_main.find_locations">[docs]</a><span class="k">def</span> <span class="nf">find_locations</span><span class="p">(</span><span class="n">output_collection</span><span class="p">,</span> <span class="n">input_collection</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds locations in Wikidata dump and stores them together with additional information in the output collection</span>
+
+<span class="sd">    :param output_collection:</span>
+<span class="sd">    :param input_collection:</span>
+<span class="sd">    :return: nothing, writes objects directly to MongoDB</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Location Specific</span>
+    <span class="n">loc_insert</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">insert_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">bulk</span> <span class="o">=</span> <span class="n">output_collection</span><span class="o">.</span><span class="n">initialize_unordered_bulk_op</span><span class="p">()</span>
+    <span class="n">output_collection</span><span class="o">.</span><span class="n">remove</span><span class="p">({</span><span class="s2">&quot;neClass&quot;</span><span class="p">:</span> <span class="s2">&quot;LOC&quot;</span><span class="p">})</span>
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;LOC</span><span class="se">\t</span><span class="s2">removed old locations&quot;</span><span class="p">)</span>
+
+    <span class="n">geolocation_subclass</span> <span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">2221906</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="n">food_subclass</span> <span class="o">=</span>  <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">2095</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="n">geolocation_subclass</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">geolocation_subclass</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">food_subclass</span><span class="p">))</span>
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;LOC</span><span class="se">\t</span><span class="s2">&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">geolocation_subclass</span><span class="p">))</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">geolocation_subclass</span><span class="p">)))</span>
+
+    <span class="n">settlement_subclass</span> <span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">486972</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+
+    <span class="n">country_subclass</span> <span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">6256</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="n">sovereignstate_subclass</span> <span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">3624078</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="n">ccountry_subclass</span> <span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">1763527</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="n">country_subclass</span> <span class="o">+=</span> <span class="n">sovereignstate_subclass</span> <span class="o">+</span> <span class="n">ccountry_subclass</span>
+
+    <span class="n">sea_subclass</span> <span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">165</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="n">state_subclass</span> <span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">7275</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="n">city_subclass</span> <span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">515</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="n">river_subclass</span> <span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">4022</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="n">mountain_subclass</span><span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">8502</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="n">mountainr_subclass</span><span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">1437459</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="c1">#POI_subclass= WikiDataProcessor.get_wikidata_item_tree_item_idsSPARQL([XXX], backward_properties=[279])</span>
+    <span class="n">hgte_subclass</span><span class="o">=</span> <span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">15642541</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;LOC</span><span class="se">\t</span><span class="s2">Location subclasses found&quot;</span><span class="p">)</span>
+
+    <span class="n">location_cursor</span> <span class="o">=</span> <span class="n">input_collection</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;$and&quot;</span><span class="p">:[</span>\
+                                                <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;item&quot;</span><span class="p">},</span>\
+                                                <span class="p">{</span><span class="s2">&quot;claims.P31.mainsnak.datavalue.value.numeric-id&quot;</span><span class="p">:{</span><span class="s2">&quot;$in&quot;</span><span class="p">:</span><span class="n">geolocation_subclass</span><span class="p">}}]</span>\
+                                           <span class="p">},</span><span class="n">no_cursor_timeout</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;LOC</span><span class="se">\t</span><span class="s2">Locations found&quot;</span><span class="p">)</span>
+
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;LOC</span><span class="se">\t</span><span class="s2">Begining of location-loop&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">location_cursor</span><span class="p">:</span>
+        <span class="n">entry</span><span class="o">=</span><span class="n">write_functions</span><span class="o">.</span><span class="n">write_common_fields</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;neClass&quot;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;LOC&quot;</span>
+
+        <span class="p">(</span><span class="n">incountry</span><span class="p">,</span><span class="n">incontinent</span><span class="p">)</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_location_inside</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">incountry</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;in_country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">incountry</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">incontinent</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;in_continent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">incountry</span>
+
+        <span class="n">loc_type</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_poi</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">country_subclass</span><span class="p">,</span><span class="n">settlement_subclass</span><span class="p">,</span> <span class="n">city_subclass</span><span class="p">,</span> <span class="n">sea_subclass</span><span class="p">,</span> <span class="n">river_subclass</span><span class="p">,</span> <span class="n">mountain_subclass</span><span class="p">,</span> <span class="n">mountainr_subclass</span><span class="p">,</span> <span class="n">state_subclass</span><span class="p">,</span><span class="n">hgte_subclass</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">loc_type</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;location_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loc_type</span>
+
+        <span class="n">coordinate</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_coordinate</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">coordinate</span><span class="p">:</span>
+            <span class="c1">#{ type: &quot;Point&quot;, coordinates: [ 40, 5 ] }</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;coordinate&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">coordinate</span>
+
+        <span class="n">population</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_population</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">population</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;population&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">population</span>
+
+        <span class="c1"># is part of LOD Link list</span>
+        <span class="c1">#GN_ID = get_functions.get_geonamesID(item)</span>
+        <span class="c1">#if GN_ID:</span>
+        <span class="c1">#     entry[&quot;geonamesID&quot;] = GN_ID</span>
+
+        <span class="n">wdid</span><span class="o">=</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+        <span class="n">doc</span><span class="o">=</span><span class="n">output_collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">wdid</span><span class="p">})</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">doc</span> <span class="ow">or</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;neClass&quot;</span><span class="p">]</span><span class="o">!=</span><span class="s2">&quot;LOC&quot;</span><span class="p">):</span>
+            <span class="n">insert_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">bulk</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">insert_count</span> <span class="o">==</span> <span class="mi">1000</span><span class="p">:</span>
+                <span class="n">loc_insert</span><span class="o">+=</span><span class="mi">1</span>
+                <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;LOC</span><span class="se">\t</span><span class="s2">&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">loc_insert</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;locations written&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">bulk</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+                <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">BulkWriteError</span> <span class="k">as</span> <span class="n">bwe</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="n">bwe</span><span class="o">.</span><span class="n">details</span><span class="p">)</span>
+                    <span class="c1">#you can also take this component and do more analysis</span>
+                    <span class="c1">#werrors = bwe.details[&#39;writeErrors&#39;]</span>
+                    <span class="k">raise</span>
+                <span class="n">bulk</span><span class="o">=</span> <span class="n">output_collection</span><span class="o">.</span><span class="n">initialize_unordered_bulk_op</span><span class="p">()</span>
+                <span class="n">insert_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">location_cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">insert_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">bulk</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="find_organizations"><a class="viewcode-back" href="../NECKAr_main.html#NECKAr_main.find_organizations">[docs]</a><span class="k">def</span> <span class="nf">find_organizations</span><span class="p">(</span><span class="n">output_collection</span><span class="p">,</span> <span class="n">input_collection</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds organozations in Wikidata dump and stores them together with additional information in the output collection</span>
+
+<span class="sd">    :param output_collection:</span>
+<span class="sd">    :param input_collection:</span>
+<span class="sd">    :return: nothing, writes objects directly to MongoDB</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Organization Specific</span>
+    <span class="n">org_insert</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">insert_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">bulk</span> <span class="o">=</span> <span class="n">output_collection</span><span class="o">.</span><span class="n">initialize_unordered_bulk_op</span><span class="p">()</span>
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;Begining of Organization loop&quot;</span><span class="p">)</span>
+    <span class="n">output_collection</span><span class="o">.</span><span class="n">remove</span><span class="p">({</span><span class="s2">&quot;neClass&quot;</span><span class="p">:</span> <span class="s2">&quot;ORG&quot;</span><span class="p">})</span>
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;removed old orgs&quot;</span><span class="p">)</span>
+    <span class="n">organization_subclass</span><span class="o">=</span><span class="n">get_wikidata_item_tree_item_idsSPARQL</span><span class="p">([</span><span class="mi">43229</span><span class="p">],</span> <span class="n">backward_properties</span><span class="o">=</span><span class="p">[</span><span class="mi">279</span><span class="p">])</span>
+    <span class="c1">#print(len(organization_subclass))</span>
+    <span class="n">organization_cursor</span> <span class="o">=</span> <span class="n">input_collection</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;$and&quot;</span><span class="p">:[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;item&quot;</span><span class="p">},</span>
+                                                         <span class="p">{</span><span class="s2">&quot;claims.P31.mainsnak.datavalue.value.numeric-id&quot;</span><span class="p">:{</span><span class="s2">&quot;$in&quot;</span><span class="p">:</span><span class="n">organization_subclass</span><span class="p">}}]})</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">organization_cursor</span><span class="p">:</span>
+        <span class="n">entry</span><span class="o">=</span><span class="n">write_functions</span><span class="o">.</span><span class="n">write_common_fields</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;neClass&quot;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;ORG&quot;</span>
+
+        <span class="n">olang</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_official_language</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">olang</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;official_language&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">olang</span>
+
+        <span class="n">inception</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_inception</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">inception</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;inception&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inception</span>
+
+        <span class="n">hq</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_hq_location</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">hq</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;hq_location&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">hq</span>
+
+        <span class="n">web</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_official_website</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">web</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;official_website&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">web</span>
+
+        <span class="n">founder</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_founder</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">founder</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;founder&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">founder</span>
+
+        <span class="n">ceo</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_ceo</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ceo</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;ceo&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">ceo</span>
+
+        <span class="n">country_org</span> <span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_country</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">country_org</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">country_org</span>
+
+        <span class="n">instanceof</span><span class="o">=</span> <span class="n">get_functions</span><span class="o">.</span><span class="n">get_instance_of</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">instanceof</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;instance_of&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">instanceof</span>
+
+        <span class="n">wdid</span><span class="o">=</span><span class="n">entry</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+        <span class="n">doc</span><span class="o">=</span><span class="n">output_collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">wdid</span><span class="p">})</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">doc</span> <span class="ow">or</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;neClass&quot;</span><span class="p">]</span><span class="o">!=</span><span class="s2">&quot;ORG&quot;</span><span class="p">):</span>
+            <span class="n">insert_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">bulk</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">insert_count</span> <span class="o">==</span> <span class="mi">1000</span><span class="p">:</span>
+                <span class="n">org_insert</span><span class="o">+=</span><span class="mi">1</span>
+                <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;ORG &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">org_insert</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">+</span> <span class="s2">&quot; organizations written&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="n">bulk</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+                <span class="n">bulk</span><span class="o">=</span> <span class="n">output_collection</span><span class="o">.</span><span class="n">initialize_unordered_bulk_op</span><span class="p">()</span>
+                <span class="n">insert_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">insert_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">bulk</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span></div>
+<span class="c1">########################################################################################################################</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;NECKAr: Named Entity Classifier for Wikidata</span>
+
+<span class="sd">    this tool categorizes Wikidata items into 6 categories</span>
+<span class="sd">    the parameters are set in NECKAr.cfg &quot;&quot;&quot;</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;../NECKAr.cfg&#39;</span><span class="p">)</span>
+
+    <span class="n">input_collection</span><span class="p">,</span> <span class="n">output_collection</span> <span class="o">=</span> <span class="n">read_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">output_collection</span><span class="o">.</span><span class="n">create_index</span><span class="p">([(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">ASCENDING</span><span class="p">)])</span>
+
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">getboolean</span><span class="p">(</span><span class="s1">&#39;Search_Flags&#39;</span><span class="p">,</span><span class="s1">&#39;person&#39;</span><span class="p">):</span>
+        <span class="n">find_persons</span><span class="p">(</span><span class="n">output_collection</span><span class="p">,</span><span class="n">input_collection</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">getboolean</span><span class="p">(</span><span class="s1">&#39;Search_Flags&#39;</span><span class="p">,</span><span class="s1">&#39;location&#39;</span><span class="p">):</span>
+        <span class="n">find_locations</span><span class="p">(</span><span class="n">output_collection</span><span class="p">,</span> <span class="n">input_collection</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">getboolean</span><span class="p">(</span><span class="s1">&#39;Search_Flags&#39;</span><span class="p">,</span><span class="s1">&#39;organization&#39;</span><span class="p">):</span>
+        <span class="n">find_organizations</span><span class="p">(</span><span class="n">output_collection</span><span class="p">,</span> <span class="n">input_collection</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">NECKAr  documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Johanna Geiß.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>
