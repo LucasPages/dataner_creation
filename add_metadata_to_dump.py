@@ -9,7 +9,6 @@ from tqdm import tqdm
 parser = argparse.ArgumentParser()
 
 parser.add_argument("wikipedia_dump", help="Path to the Wikipedia dump to add the metadata to.")
-parser.add_argument("output_file", help="Path to the output file containing the updated dump.")
 
 args = parser.parse_args()
 
@@ -26,9 +25,13 @@ if __name__ == "__main__":
     neckar_db = client.neckar_results
     neckar_results_coll = neckar_db.neckar_results
 
+    wikipedia_db = client.wikipedia
+    dump_coll = wikipedia_db.dump_with_metadata
+    dump_coll.delete_many({})
+
     wikipedia_dump = args.wikipedia_dump
 
-    print("Counting number of Wikipedia dump articles...")
+    print("Counting number of article in the Wikipedia dump...")
 
     articles_counter = 0
     with bz2.open(wikipedia_dump, "r") as dump_file:
@@ -38,34 +41,33 @@ if __name__ == "__main__":
     print("Processing...")
     progress_bar = tqdm(total=articles_counter, unit="items", leave=None, mininterval=0, miniters=0)
 
-    with bz2.open(args.output_file, "wt") as output_file:
-        with bz2.open(wikipedia_dump, "r") as dump_file:
-            for article in dump_file:
-                article_info = json.loads(article.decode("utf-8"))
+    with bz2.open(wikipedia_dump, "r") as dump_file:
+        for article in dump_file:
+            article_info = json.loads(article.decode("utf-8"))
 
-                print(article_info["title"])
-                try:
-                    wikidata_id = title_to_id_coll.find_one({"title": article_info["title"]})["wikidata_id"]
-                except TypeError:
-                    continue
-
-                try:
-                    aliases = [alias["value"] for alias in wikidata_items_coll.find_one(
-                        {"id": wikidata_id})["aliases"]["en"]]
-                except KeyError:
-                    aliases = []
-
-                try:
-                    ner_class = random.choice([result["neClass"] for result in neckar_results_coll.find(
-                        {"id": wikidata_id})])
-                except IndexError:
-                    ner_class = "MISC"
-
-                article_info["wikidata_id"] = wikidata_id
-                article_info["aliases"] = aliases
-                article_info["ne_class"] = ner_class
-
-                output_file.write(json.dumps(article_info).strip() + "\n")
+            try:
+                wikidata_id = title_to_id_coll.find_one({"title": article_info["title"]})["wikidata_id"]
+            except TypeError:
                 progress_bar.update(1)
+                continue
+
+            try:
+                aliases = [alias["value"] for alias in wikidata_items_coll.find_one(
+                    {"id": wikidata_id})["aliases"]["en"]]
+            except KeyError:
+                aliases = []
+
+            try:
+                ner_class = random.choice([result["neClass"] for result in neckar_results_coll.find(
+                    {"id": wikidata_id})])
+            except IndexError:
+                ner_class = "MISC"
+
+            article_info["wikidata_id"] = wikidata_id
+            article_info["aliases"] = aliases
+            article_info["ne_class"] = ner_class
+
+            dump_coll.insert_one(article_info)
+            progress_bar.update(1)
 
     print("Program completed.")
