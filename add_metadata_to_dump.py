@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     wikipedia_dump = args.wikipedia_dump
 
-    print("Counting number of article in the Wikipedia dump...")
+    print("Counting number of articles in the Wikipedia dump...")
 
     articles_counter = 0
     with bz2.open(wikipedia_dump, "r") as dump_file:
@@ -69,5 +69,7 @@ if __name__ == "__main__":
 
             dump_coll.insert_one(article_info)
             progress_bar.update(1)
+
+    dump_coll.create_index("title")
 
     print("Program completed.")

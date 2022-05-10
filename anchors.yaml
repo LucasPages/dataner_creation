@@ -1,0 +1,15 @@
+---
+overlap: "random"  # ["bigger", "shorter", "random"]
+inclusion: "random"  # ["bigger", "shorter", "random"]
+
+alias-title: false
+title-expansion: false
+
+outlinks: false  # ["outlinks-article", "outlinks-sentence", false]
+alias: false  # ["alias-article", "alias-sentence", false]
+
+anchor_priority: true
+
+stopwords: false  # ["true", "false"]
+sub-misc: false  # ["true", "false"]
+numbers: false  # ["true", "false"]
