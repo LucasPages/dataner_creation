@@ -4,7 +4,7 @@ This repository contains the code used to create the DataNER corpus, which is an
 
 ## Dependencies
 
-You need to [install MongoDB](install MongoDB) in order to use this repository.
+You need to [install MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/) in order to use this repository.
 
 
 ## Description
