@@ -18,7 +18,7 @@ The code itself still constitutes an interesting contribution to approach this m
 
 ## How to use
 
-1. Download the Wikipedia and WikiData dump of your liking.
+1. Download the [Wikipedia](https://en.wikipedia.org/wiki/Wikipedia:Database_download) and [WikiData](https://www.wikidata.org/wiki/Wikidata:Database_download#JSON_dumps_(recommended)) dump of your liking.
 2. Download the WikiExtractor GitHub and NECKAr tool and move them into their respective folders in this repository (see README files)
 3. Add WikiData dump path to the NECKAr.cfg file in the NECKAr folder.
 4. Run the `process_wikidata_dump.sh` script.
