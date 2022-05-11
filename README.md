@@ -23,7 +23,7 @@ The code itself still constitutes an interesting contribution to approach this m
 3. Add WikiData dump path to the NECKAr.cfg file in the NECKAr folder.
 4. Run the `process_wikidata_dump.sh` script.
 5. Run the `process_wikipedia_dump.sh` script.
-6. (_Optional_) Run the `augment_mentions.py` scripts to infer more named entities in your corpus.
+6. (_Optional_) Run the `augment_mentions.py` script to create more named entities in your corpus.
 7. Run the `extract_collection.py` script to create the corpus.
 
 ## Disclaimer
