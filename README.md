@@ -4,14 +4,16 @@ This repository contains the code used to create the DataNER corpus, which is an
 
 ## Dependencies
 
-* MongoDB
+You need to [install MongoDB](install MongoDB) in order to use this repository.
+
 
 ## Description
 
 The code contained in this repository will process a Wikipedia xml dump and a WikiData json dump and use them
 to build a corpus annotated with named entities.
 
-It was developed as part of a (french-speaking) master's thesis at Université de Montréal.
+It was developed as part of a (french-speaking) master's thesis at Université de Montréal. The findings of the thesis sadly showed this process led to a lesser quality corpus in comparison to other similar corpora.
+The code itself still constitutes an interesting contribution to approach this method, thus justifying publishing it.
 
 
 ## How to use
@@ -24,8 +26,13 @@ It was developed as part of a (french-speaking) master's thesis at Université d
 6. (_Optional_) Run the `augment_mentions.py` scripts to infer more named entities in your corpus.
 7. Run the `extract_collection.py` script to create the corpus.
 
+## Disclaimer
 
-## Citations
+This code was experimented with and used on a 24-threads computer, it might be very slow on a more "normal" one.
+If the scripts take an unreasonable time to run, I recommend using a subset of Wikipedia to still be able to produce a corpus.
+
+
+## References
 
 This code is based on two other works :
 
