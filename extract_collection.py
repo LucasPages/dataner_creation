@@ -44,7 +44,7 @@ def process_article(process_q, writing_q, config_p):
     db_w = client_w.wikipedia
 
     collection_tokens = db_w["dump_tokens"]
-    coll_w = db_w[args.collection]
+    coll_w = db_w["dump_mentions"]
 
     while True:
         article_id_p = process_q.get()
@@ -159,7 +159,6 @@ if __name__ == "__main__":
     pool = multiprocessing.Pool(processes=num_workers - 1, initializer=process_article, initargs=(processing_queue,
                                                                                                   writing_queue,
                                                                                                   config))
-
     writing_process = multiprocessing.Process(target=write_article,
                                               args=(processing_queue, writing_queue, num_workers,
                                                     doc_count))

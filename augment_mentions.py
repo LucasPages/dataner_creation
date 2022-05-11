@@ -142,6 +142,9 @@ def write_mentions(writing_q, process_q, num_processes, number_documents):
     for index in range(num_processes):
         process_q.put("exit")
 
+    collection_write.drop_index("article_id_1_sent_index_1")
+    collection_write.create_index([("article_id", 1), ("sent_index", 1)])
+
 
 if __name__ == "__main__":
     client = pymongo.MongoClient("localhost", 27017)
