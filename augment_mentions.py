@@ -8,6 +8,8 @@ from tqdm import tqdm
 
 import entity_utils
 
+"""This script is used to create new named entity mentions in the mentions collections."""
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument("workers", type=int, help="Number of workers to use for processing.", default=8)

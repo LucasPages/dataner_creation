@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This script selects the subset of WikiData pages (items) that are linked to English Wikipedia. In this repository, we
+# we are only interested in this subset because we seek structured information about English Wikipedia articles.
+
 if [ "$#" != 2 ]
 then
 	echo "Usage : ./select_en.sh wikidata_dump output_dump"

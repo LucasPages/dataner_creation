@@ -7,6 +7,14 @@ from blingfire import text_to_words
 import spacy
 from urllib.parse import unquote
 
+"""This script takes the Wikipedia dump collection previously uploaded into MongoDB by the 'add_metadata_to_dump.py 
+script', processes its text and makes it into 3 MongoDB collections : 
+    * dump_articles : metadata about a given article (title, ner class, ...)
+    * dump_tokens   : contains all the sentences of the Wikipedia dump
+    * dump_mentions : contains all the mentions of named entities of the dump
+"""
+
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument("workers", type=int, help="Number of workers to use for processing articles.")

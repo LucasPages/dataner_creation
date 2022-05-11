@@ -1,6 +1,9 @@
 import pymongo
 from tqdm import tqdm
 
+"""This script creates a mapping between WikiData IDs and Wikipedia article titles. In order to do so, it uses the
+WikiData dump MongoDB collection created by the NECKAr tool."""
+
 
 def upload_mapping(wikidata_item, collection):
     wikidata_id = wikidata_item["id"]

@@ -6,6 +6,13 @@ import random
 from tqdm import tqdm
 
 
+"""This script adds metadata information to the articles of a Wikipedia dump and uploads it into MongoDB. 
+Said metadata is :
+    * the corresponding WikiData ID
+    * its NER class according to NECKAr
+    * its list of WikiData aliases if it exists
+"""
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument("wikipedia_dump", help="Path to the Wikipedia dump to add the metadata to.")

@@ -6,6 +6,9 @@ import entity_utils
 import multiprocessing
 from tqdm import tqdm
 
+"""This script takes all the information about the text and the mentions and puts them all together to extract an 
+annotated corpus. It requires a configuration file found in the config_files folder of this repository."""
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument("config", help="Path to the YAML extraction configuration file.")

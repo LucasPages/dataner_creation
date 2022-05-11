@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# This file encompasses all the actions to be done with the Wikipedia dump up to before the augmentation process
+# and extraction of a corpus.
+
 if [ $# != 1 ]
 then
   echo "Usage : ./process_wikipedia_dump.sh wikipedia_dump_path"

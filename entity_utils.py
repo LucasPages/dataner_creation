@@ -1,6 +1,14 @@
 import random
 from nltk.corpus import stopwords
 
+"""
+This module contains utility functions meant to handle mentions of named entities in this project.
+It contains three classes :
+    * EntityPair : objects made to compare two mentions to one another
+    * EntitySet  : objects made to deal with a set of mentions
+    * Mention    : objects representing one single named entity mention
+    """
+
 
 class EntityPair:
 
@@ -37,11 +45,6 @@ class EntityPair:
             return self.entity2
 
     def choose_from_same_span(self):
-        # technique_ranking = {"anchor": 0, "title-expansion": 1, "outlinks-sentence": 2, "outlinks-article": 3,
-        #                      "alias-sentence": 4, "alias-article": 5, "fusion": 6}
-        # technique_ranking = ["anchor", "title-expansion", "alias-title", "outlinks-sentence", "alias-sentence",
-        #                      "outlinks-article", "alias-article", "consecutive-fusion", "overlap-fusion"]
-
         technique_ranking = ["anchor", "title-expansion", "alias-title", "outlinks", "alias",
                              "consecutive-fusion", "overlap-fusion"]
 
@@ -100,7 +103,7 @@ class EntityPair:
         return self.same_link() and self.same_class()
 
     def same_link(self):
-        return self.entity1["link"] == self.entity2["link"]
+        return self.entity1["mention_title"] == self.entity2["mention_title"]
 
     def same_class(self):
         return self.entity1["ne_class"] == self.entity2["ne_class"]
@@ -186,7 +189,7 @@ class EntitySet:
         counter = 0
 
         for index, mention_iter in enumerate(self.list):
-            neckar_info = set([info["neClass"] for info in neckar_coll.find({"en_sitelink": mention_iter["link"]})])
+            neckar_info = set([info["neClass"] for info in neckar_coll.find({"en_sitelink": mention_iter["mention_title"]})])
             if len(neckar_info) <= 1:
                 new_entities.append(mention_iter)
             else:
@@ -326,9 +329,9 @@ class EntitySet:
 
         for entity in self.list:
             if entity["technique"] == "anchor":
-                link_to_recover = entity["link"]
+                link_to_recover = entity["mention_title"]
             elif entity["technique"] in ["outlinks", "alias"]:
-                link_to_recover = collection_mentions.find_one({"_id": entity["origin"]})["link"]
+                link_to_recover = collection_mentions.find_one({"_id": entity["origin"]})["mention_title"]
             else:
                 filtered_list.append(entity)
                 continue
@@ -343,21 +346,21 @@ class Mention:
 
     def __init__(self, entity):
         self.entity = entity
-        self.link = entity["link"]
+        self.mention_title = entity["mention_title"]
 
     def get_outlinks(self, coll_mentions):
         new_mentions = []
-        for entity in coll_mentions.find({"article_title": self.link, "technique": "anchor"}):
+        for entity in coll_mentions.find({"article_title": self.mention_title, "technique": "anchor"}):
             entity["origin"] = self.entity["_id"]
             entity["origin_sent"] = self.entity["sent_index"]
             new_mentions.append(entity)
         return new_mentions
 
     def get_aliases(self, coll_articles):
-        return [{"alias": alias, "link": self.link, "ne_class": self.entity["ne_class"],
+        return [{"alias": alias, "mention_title": self.mention_title, "ne_class": self.entity["ne_class"],
                  "origin": self.entity["_id"], "origin_sent": self.entity["sent_index"],
                  "origin_technique": self.entity["technique"]}
-                for alias in coll_articles.find_one({"title": self.link})["aliases"]]
+                for alias in coll_articles.find_one({"title": self.mention_title})["aliases"]]
 
     def get_technique(self):
         return self.entity["technique"]
