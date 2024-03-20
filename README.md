@@ -38,11 +38,8 @@ This code is based on two other works :
 
 * Giusepppe Attardi. Wikiextractor. https://github.com/attardi/wikiextractor, 2015.
 
-* Johanna Geiß, Andreas Spitz, and Michael Gertz. Neckar : A named entity classifier for
-wikidata. In Georg Rehm and Thierry Declerck, editors, Language Technologies for the
-Challenges of the Digital Age, pages 115–129, Cham, 2018. Springer International Publi-
-shing. ISBN 978-3-319-73706-5.
+* Johanna Geiß, Andreas Spitz, and Michael Gertz. Neckar : A named entity classifier for wikidata. In Georg Rehm and Thierry Declerck, editors, Language Technologies for the Challenges of the Digital Age, pages 115–129, Cham, 2018. Springer International Publishing. ISBN 978-3-319-73706-5.
 
 ## Contact
 
-Please reach out to [lucas.pages@umontreal.ca](mailto:lucas.pages@umontreal.ca) if you have any question about this repository.
+Please reach out to [lucas.pages@umontreal.ca](mailto:lucas.pages123@gmail.com) if you have any question about this repository.
