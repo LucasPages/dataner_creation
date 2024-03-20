@@ -42,4 +42,4 @@ This code is based on two other works :
 
 ## Contact
 
-Please reach out to [lucas.pages@umontreal.ca](mailto:lucas.pages123@gmail.com) if you have any question about this repository.
+Please reach out to [lucas.pages123@gmail.com](mailto:lucas.pages123@gmail.com) if you have any question about this repository.
